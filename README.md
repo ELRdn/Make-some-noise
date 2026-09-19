@@ -1,20 +1,22 @@
 # Make Some Noise
 
-**ノイズを選んで、重ねて、つくる。**
+**English** | [日本語](README.jp.md)
 
-28種類のノイズと14のプリセットで、オリジナルのテクスチャや画像加工を楽しめる、日本語のブラウザアプリです。カラーノイズからフィルムの傷、RGBグリッチ、生成エラー風の模様まで、シードから生成できます。
+**Choose noise. Stack layers. Make textures.**
 
-画像処理は端末内で完結します。画像のアップロード、アカウント登録、AIモデルは不要です。現在はローカルでの利用を想定しています。
+A browser-based texture studio with **28 noise types and effects** and **14 presets**. Generate seeded color noise, film scratches, RGB glitches, and abstract patterns that resemble failed image generation, or apply them to your own images.
 
-## はじめる
+All image processing runs on your device. No image uploads, accounts, or AI models are required. The app is intended for local use and currently has a **Japanese interface**.
 
-### 動作条件
+## Getting started
 
-- Node.js 22.12以上とnpm
-- WebGL2が利用できるPCブラウザ
-- GPUアクセラレーションが利用できる環境
+### Requirements
 
-WebGL2が利用できない場合は、画面に利用条件を表示します。ブラウザごとの検証状況は[検証と既知の制限](#検証と既知の制限)を確認してください。
+- Node.js 22.12 or later and npm
+- A desktop browser with WebGL2 support
+- GPU acceleration available in the browser
+
+If WebGL2 is unavailable, the app displays its requirements. See [Validation and known limitations](#validation-and-known-limitations) for browser testing status.
 
 ```sh
 git clone https://github.com/ELRdn/Make-some-noise.git
@@ -23,137 +25,152 @@ npm ci
 npm run dev
 ```
 
-ターミナルに表示されたローカルURLを開きます。通常は `http://127.0.0.1:5173/` です。開発サーバーは `127.0.0.1` のみに公開します。
+Open the local URL printed in your terminal, usually `http://127.0.0.1:5173/`. The development server binds only to `127.0.0.1`.
 
-## 基本の使い方
+## Basic workflow
 
-1. **見本を選ぶ** — 左のライブラリからノイズを追加するか、プリセットを選びます。
-2. **重ねる** — 右のレイヤー一覧で順番・表示・不透明度・合成方法を調整します。
-3. **質感を調整する** — 粒の大きさや強さ、色、シードを変更します。
-4. **PNGを生成する** — 出力寸法と時刻を決め、「PNGを書き出す」を選びます。
+1. **Choose a sample** — Add noise from the library on the left, or choose a preset.
+2. **Stack layers** — Adjust order, visibility, opacity, and blending in the panel on the right.
+3. **Tune the texture** — Change grain size, intensity, color, and seed.
+4. **Generate a PNG** — Choose output dimensions and a time, then select **PNGを書き出す** (Export PNG).
 
-手持ちの画像に加工する場合は、「画像を読み込む」または中央へのドラッグ＆ドロップを使います。プリセットは現在のレイヤーを置き換えますが、元に戻す操作で復元できます。
+To process an existing image, select **画像を読み込む** (Load image) or drag and drop it into the center panel. Presets replace the current layers; Undo restores the previous state.
 
-作業を残すには「設定を保存」でJSONを書き出し、次回は「設定を開く」で読み込みます。ページを再読み込みする前に保存してください。
+Use **設定を保存** (Save settings) to export a JSON project, then **設定を開く** (Open settings) to restore it later. Save your settings before reloading the page.
 
-## ノイズ・エフェクト全28種類
+## All 28 noise types and effects
 
-| 分類 | 種類 |
+| Category | Types |
 | --- | --- |
-| 粒状 · 4種類 | 均一ノイズ、ガウスノイズ、塩胡椒ノイズ、カラー砂嵐 |
-| パターン · 8種類 | Value、Perlin、Simplex、Worley、フラクタル雲、乱流、マーブル、生成崩壊ブルーム |
-| フィルム · 6種類 | フィルムグレイン、縦傷、ほこり、ちらつき、フィルムダメージ、カラーフィルム |
-| アナログ · 7種類 | 走査線、水平同期ずれ、RGB色ずれ、ブロックグリッチ、RGBシグナル、グリッチフレア、デコード崩れ |
-| テクスチャ · 3種類 | 紙の繊維、ディザ風ドット、グランジスクラッチ |
+| Grain · 4 | Uniform, Gaussian, Salt & pepper, Color snow |
+| Patterns · 8 | Value, Perlin, Simplex, Worley, Fractal clouds, Turbulence, Marble, Latent bloom |
+| Film · 6 | Film grain, Scratches, Dust, Flicker, Film damage, Color film |
+| Analog · 7 | Scanlines, Horizontal drift, RGB shift, Block glitch, RGB signal, Glitch flare, Decode noise |
+| Textures · 3 | Paper fibers, Dither dots, Grunge scratches |
 
-各種類に見本・日本語の説明・初期設定があります。対応する種類では、白黒・RGB・指定色を切り替えられます。
+Every type has a preview, a short Japanese description, and default settings. Supported types offer monochrome, RGB, and custom-color modes.
 
-### カラー砂嵐
+### Color snow
 
-「デコード崩れ」の色帯の強さを0にした、カラーだけの細かな砂嵐を単独で選べます。色帯は生成せず、粒の大きさ・コントラスト・明るさを調整できます。
+**カラー砂嵐** (Color snow) isolates the fine colored static from Decode noise with its color-band strength set to zero. It produces no color bands and provides grain size, contrast, and brightness controls.
 
-初期コントラスト **0.78**・明るさ **4** では、同じシード・粒の大きさ・時刻・速度・色設定の「デコード崩れ／色帯0」と同じ粒になります。共通シードから作る乱数系列も共有しています。
+At the default contrast of **0.78** and brightness of **4**, it matches band-free Decode noise when seed, grain size, time, speed, and color settings match. Both types share the random sequence derived from the global seed.
 
-### グランジ・フィルム・発光素材
+### Grunge, film, and glowing textures
 
-- **グランジスクラッチ**：細かな交差傷と、使い込んだ表面の汚れ。
-- **フィルムダメージ**：不揃いなほこり、糸くず、途切れた縦傷。
-- **カラーフィルム**：赤と青の色ムラ、微細な粒、表面の擦れ。
-- **RGBシグナル**：黒い隙間を挟んだ虹色の横帯と、細かく裂けた信号の光。
-- **グリッチフレア**：白くにじむ光と、色の縁を持つ横筋。
+- **Grunge scratches**: fine intersecting scratches and worn surface grime.
+- **Film damage**: irregular dust, fibers, and broken vertical scratches.
+- **Color film**: red and blue color patches, fine grain, and surface wear.
+- **RGB signal**: broken rainbow-colored horizontal bands separated by dark gaps.
+- **Glitch flare**: bright smeared light and horizontal streaks with colored edges.
 
-RGBシグナルとグリッチフレアは、元画像がなくても素材を生成できます。
+RGB signal and Glitch flare can generate textures without a source image.
 
-### 生成エラー風の素材
+### Generation-error textures
 
-**生成崩壊ブルーム**は、黒い隙間に溶けた虹色と白い塊が浮かぶ模様です。**デコード崩れ**は、細かなRGBの砂嵐に時間で変化する色帯が混ざります。
+**Latent bloom** creates melted rainbow and white shapes separated by black gaps. **Decode noise** combines fine RGB static with color bands that change over time.
 
-どちらも生成失敗の見た目を模した手続き生成です。AIモデルや実際の潜在データは使用しません。
+These are procedural visual effects inspired by failed image generation. They do not use an AI model or actual latent data.
 
-## プリセット全14種類
+## All 14 presets
 
-古い映画 / VHS / 印刷の粒 / 雲 / 紙 / カラースタティック / ダークグランジ / ダストフィルム / RGBシグナル / クロマブロック / グリッチフレア / カラーフィルム / 生成エラー / 壊れたデコード
-
-ノイズの組み合わせ・合成方法・不透明度まで設定済みです。適用後に個別のレイヤーを調整できます。
-
-## レイヤー・シード・プレビュー
-
-- レイヤーの追加・複製・削除・並べ替え・表示切替に対応。最大50枚で、上のレイヤーほど手前です。
-- 合成方法は通常・乗算・スクリーン・オーバーレイ・ソフトライトの5種類です。
-- 水平同期ずれ・RGB色ずれ・ブロックグリッチは下の合成画像を変形します。これらは合成方法を変更できず、不透明度で効果量を調整します。
-- 共通シードのランダム化とレイヤー別のシード固定に対応します。固定したレイヤーは一括ランダム化の影響を受けません。
-- 同じアプリのバージョン・実行環境・設定・シード・時刻・寸法で再現できます。レイヤーの並べ替えで乱数配置は変わりません。
-- 同じ種類を別の模様にするには、レイヤーのシードを固定して数値を変えます。複製時は元の有効シードを固定します。
-- 初期状態は静止表示です。再生・停止・時刻指定・速度調整、フィット・拡大縮小・100%表示に対応します。
-- フィット表示は長辺1024px以下、100%以上では出力解像度で描画します。粒のサイズは出力画像の座標が基準です。
-
-ガウスノイズでは「シグマ（粒の強さ）」を調整できます。平均0.5のBox–Muller法による値を0〜1に制限するため、大きなシグマや低い粒密度では最終画像の標準偏差と指定シグマは一致しません。
-
-| キー | 操作 |
+| Preset | Japanese UI label |
 | --- | --- |
-| Ctrl+Z | 元に戻す |
-| Ctrl+Shift+Z / Ctrl+Y | やり直す |
-| Space | 再生・停止（入力欄以外） |
+| Old film | 古い映画 |
+| VHS | VHS |
+| Print grain | 印刷の粒 |
+| Clouds | 雲 |
+| Paper | 紙 |
+| Color static | カラースタティック |
+| Dark grunge | ダークグランジ |
+| Dust film | ダストフィルム |
+| RGB signal | RGBシグナル |
+| Chroma blocks | クロマブロック |
+| Glitch flare | グリッチフレア |
+| Color film | カラーフィルム |
+| Generation error | 生成エラー |
+| Broken decode | 壊れたデコード |
 
-履歴は直近50操作まで保持します。
+Presets include layer combinations, blend modes, and opacity settings. Every layer remains editable after applying a preset.
 
-## 画像の読み込みと保存
+## Layers, seeds, and preview
 
-### 入力と出力サイズ
+- Add, duplicate, delete, reorder, and toggle up to 50 layers. Layers at the top appear in front.
+- Five blend modes: Normal, Multiply, Screen, Overlay, and Soft Light.
+- Horizontal drift, RGB shift, and Block glitch transform the composite below them. Their blend mode cannot be changed; opacity controls their strength.
+- Randomize the global seed or lock a seed per layer. Locked layers are unaffected by global randomization.
+- Results are reproducible with the same app version, environment, settings, seed, time, and dimensions. Reordering layers does not change their random patterns.
+- To give two layers of the same type different patterns, lock and change one layer's seed. Duplicating a layer locks its effective seed to preserve its pattern.
+- The preview starts paused. Playback, pause, time entry, speed controls, fit-to-view, zoom, and 100% view are available.
+- Fit-to-view uses a preview no larger than 1024px on its longest edge. At 100% zoom or above, rendering uses output resolution. Grain sizes use output-image coordinates.
 
-PNG・JPEG・WebP（40MB以下）を読み込めます。初回読み込み時は画像の寸法に合わせ、端末上限を超える画像は縮小します。キャンバスを変更した後は、画像全体が収まるよう中央配置します。
+Gaussian noise exposes **シグマ（粒の強さ）** (Sigma / grain strength). It uses Box–Muller samples centered at 0.5 and clips values to 0–1. At large sigma values or reduced grain density, the final image's standard deviation will differ from the requested sigma.
 
-出力寸法は各辺 **64〜4096px**。正方形・横長・縦長などのプリセットと自由入力があります。実際の上限はGPUのテクスチャ・描画バッファ上限でも制限します。保存時は現在の時刻を固定し、指定寸法で描画します。
+| Shortcut | Action |
+| --- | --- |
+| Ctrl+Z | Undo |
+| Ctrl+Shift+Z / Ctrl+Y | Redo |
+| Space | Play / pause, outside input fields |
 
-### 完成画像と透明素材
+History retains the most recent 50 operations.
 
-背景は透明・単色・読み込んだ画像から選べます。「背景を除いて保存」は画像と単色背景を取り除きます。
+## Image input and export
 
-- 縦傷、ほこり、フィルムダメージ、RGBシグナル、グリッチフレア、カラーフィルムなどは部分透明の素材です。
-- 雲、グランジスクラッチ、生成崩壊ブルーム、デコード崩れ、カラー砂嵐など、画面を覆うレイヤーは不透明なままです。重ね合わせにはスクリーン／ソフトライトや不透明度を使います。
-- 下層画像を変形する効果は、下層に内容のない透明素材には現れません。
+### Input and output dimensions
 
-PNG生成後はダウンロードを開始し、生成画像と保存リンクを画面に残します。アプリ内ブラウザで保存が始まらない場合は、同じローカルURLを通常のブラウザで開いてください。
+Import PNG, JPEG, or WebP images up to 40MB. On initial import, the canvas adopts the image dimensions; images exceeding device limits are downscaled. After resizing the canvas, the image is centered and fitted entirely inside it.
 
-### 設定JSON
+Output dimensions range from **64 to 4096px per side**, with square, landscape, portrait, and other presets plus custom input. GPU texture and renderbuffer limits may reduce the maximum. Export renders at the requested dimensions with the current time frozen.
 
-形式 `make-some-noise`、バージョン1で、レイヤー・色・シード・時刻・速度・寸法を保存します。**元画像と操作履歴は含みません。** 元画像が必要な設定では再選択を案内し、その際は保存されたキャンバス寸法を保持します。
+### Finished images and transparent textures
 
-## 開発
+Choose a transparent, solid-color, or imported-image background. **背景を除いて保存** (Save without background) removes the image and solid-color background.
 
-React / TypeScript / Vite / WebGL2を使用しています。公開サーバーAPIはなく、フォントは端末のシステムフォントを使用します。
+- Scratches, Dust, Film damage, RGB signal, Glitch flare, and Color film can produce partially transparent textures.
+- Full-surface layers such as Clouds, Grunge scratches, Latent bloom, Decode noise, and Color snow remain opaque. Use Screen, Soft Light, or reduced opacity when compositing them over an image.
+- Effects that transform underlying content do not appear on an empty transparent layer stack.
+
+After generating a PNG, the app starts a download and keeps the generated image and a save link visible. If an in-app browser does not start the download, open the same local URL in a regular browser.
+
+### Project JSON
+
+The `make-some-noise` format, version 1, stores layers, colors, seeds, time, speed, and dimensions. **Source images and undo history are not included.** Projects that require a source image prompt you to select it again while preserving the saved canvas dimensions.
+
+## Development
+
+Built with React, TypeScript, Vite, and WebGL2. There is no public server API, and fonts use the device's system fonts.
 
 ```sh
-npm test        # シード・設定形式・履歴・分布の単体テスト
-npm run build   # 型検査と本番ビルド
-npm run preview # ビルド結果をローカルで確認
+npm test        # Unit tests for seeds, project format, history, and distributions
+npm run build   # Type checking and production build
+npm run preview # Preview the production build locally
 ```
 
-| ファイル | 役割 |
+| File | Purpose |
 | --- | --- |
-| `src/catalog.ts` | 種類・説明・調整項目・初期値・プリセット |
-| `src/renderer.ts` | WebGL2による生成・画像加工・合成 |
-| `src/project.ts` | シード・設定検証・履歴 |
-| `src/App.tsx` | 制作画面・画像入力・保存操作 |
-| `src/project.test.ts` | 単体テスト |
-| `src/gpuChecks.ts` | 実描画・再現性・PNGなどの検証 |
-| `tests/fixtures/` | 検証用画像とJSON |
+| `src/catalog.ts` | Types, descriptions, controls, defaults, and presets |
+| `src/renderer.ts` | WebGL2 generation, image processing, and compositing |
+| `src/project.ts` | Seeds, project validation, and history |
+| `src/App.tsx` | Studio UI, image input, and export |
+| `src/project.test.ts` | Unit tests |
+| `src/gpuChecks.ts` | Rendering, reproducibility, PNG, and other GPU checks |
+| `tests/fixtures/` | Test images and JSON files |
 
-種類を追加するときは `src/types.ts` の `NoiseKind`、カタログ、シェーダー分岐を一緒に更新します。既存の描画番号を維持するため、新しい種類は末尾へ追加してください。
+When adding a type, update `NoiseKind` in `src/types.ts`, the catalog, and the shader dispatch together. Append new types to preserve existing rendering IDs.
 
-開発サーバーでは `/?diagnostics` からGPU検証を実行できます。`/?playback-check` は編集画面を5秒再生してフレーム数を測定します。検証画面は本番ビルドに含めません。
+On the development server, open `/?diagnostics` to run GPU checks. `/?playback-check` plays the editor for five seconds and measures its frame count. Diagnostic pages are excluded from the production build.
 
-## 検証と既知の制限
+## Validation and known limitations
 
-2026-09-19時点の記録では、単体テスト **17件**、GPU検証 **23件**、型検査・本番ビルドが成功しています。Codexアプリ内ブラウザで見た目と操作も確認しています。
+The recorded results as of **2026-09-19** show **17 passing unit tests**, **23 passing GPU checks**, and successful type checking and production builds. Visual and interaction checks have also been performed in the Codex in-app browser.
 
-- 通常のWindows版Chrome・Edgeでの一連の操作確認は未完了です。
-- PNGデータの生成・再デコードと設定JSONの復元は確認済みですが、ブラウザからディスクへのダウンロード完了は未確認です。
-- GPU検証ページでの描画速度と、通常編集画面での再生速度には差があり、編集画面の再生性能に未解決の問題があります。30fpsの動作を保証する状態ではありません。
-- GPUやブラウザが異なる環境間での完全なピクセル一致は保証しません。
+- End-to-end interaction testing in standalone Windows Chrome and Edge remains incomplete.
+- PNG generation and decoding, and JSON project restoration, have been verified. Completed browser downloads to disk have not been verified.
+- The GPU diagnostic page and the regular editor have different playback performance. An unresolved editor playback issue remains; 30fps operation is not guaranteed.
+- Pixel-identical output across different GPUs or browsers is not guaranteed.
 
-測定条件・結果・未確認事項の詳細は [docs/VALIDATION.md](docs/VALIDATION.md) に記録しています。
+See [docs/VALIDATION.md](docs/VALIDATION.md) for detailed measurements, conditions, and outstanding checks. The validation log is in Japanese.
 
-## 初版の範囲
+## Initial release scope
 
-静止画素材の制作、画像加工、動くプレビューが対象です。動画の入力・書き出し、音声ノイズ、AI画像生成、潜在テンソル出力、完全なシームレス生成、Photoshop固有処理との完全一致は含みません。公開デプロイは行っていません。
+The app supports still-image texture creation, image processing, and animated previews. Video import/export, audio noise, AI image generation, latent tensor export, fully seamless generation, and exact Photoshop processing parity are outside the current scope. There is no hosted deployment.
