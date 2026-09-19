@@ -1,0 +1,36 @@
+{
+  "format": "make-some-noise",
+  "version": 1,
+  "time": 2.5,
+  "speed": 0.5,
+  "project": {
+    "version": 1,
+    "title": "画像復元テスト",
+    "width": 640,
+    "height": 400,
+    "seed": 42,
+    "background": "image",
+    "backgroundColor": "#202534",
+    "imageName": "source.png",
+    "imageId": null,
+    "layers": [
+      {
+        "id": "fixture-scratches",
+        "kind": "scratches",
+        "name": "縦傷",
+        "visible": true,
+        "opacity": 0.65,
+        "blend": "normal",
+        "seed": 123,
+        "params": {
+          "scale": 35,
+          "amount": 0.7,
+          "detail": 3,
+          "speed": 1,
+          "colorMode": "mono",
+          "color": "#c6b8fa"
+        }
+      }
+    ]
+  }
+}
